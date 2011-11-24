@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 require "exception-log/version"
 
 Gem::Specification.new do |s|
-  s.name        = "mongoid-exceptions"
+  s.name        = "exception-log"
   s.version     = ExceptionLog::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Jaden Carver"]

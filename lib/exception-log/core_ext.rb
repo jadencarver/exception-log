@@ -1,22 +1,16 @@
 class Exception
-  cattr_writer :backend
+  cattr_accessor :store
 
-  def logged
-    @logged ||= case @@backend
+  def log
+    @log ||= case @@store
                 when :mongoid
-                  ExceptionLog::Mongoid.new(self)
+                  Exception::MongoidStore.new #:exception => self
                 when :activerecord
-                  ExceptionLog::ActiveRecord.new(self)
-                else
-                  ExceptionLog::Logger.new(self)
+                  Exception::ActiveRecordStore.new #:exception => self
                 end
   end
 
-  def save
-    logged.save
-  end
-
-  def save!
-    logged.save!
+  def method_missing(method,*args,&block)
+    log.send(method,*args,&block)
   end
 end
