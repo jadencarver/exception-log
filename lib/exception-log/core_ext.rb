@@ -4,13 +4,17 @@ class Exception
   def log
     @log ||= case @@store
                 when :mongoid
-                  Exception::MongoidStore.new #:exception => self
+                  Exception::MongoidLog.new :exception => self
                 when :activerecord
-                  Exception::ActiveRecordStore.new #:exception => self
+                  Exception::ActiveRecordLog.new :exception => self
                 end
   end
 
-  def method_missing(method,*args,&block)
-    log.send(method,*args,&block)
+  def save
+    log.save
+  end
+
+  def save!
+    log.save!
   end
 end

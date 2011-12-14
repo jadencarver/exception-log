@@ -1,11 +1,12 @@
 require 'mongoid'
 
-class Exception::MongoidStore
+class Exception::MongoidLog
   include Mongoid::Document
   include Mongoid::Timestamps::Created
 
-  field :name
-  field :message
+  field :name, type: String
+  field :message, type: String
+  field :backtrace, type: String
 
   def exception= exception
     @exception= exception
@@ -14,5 +15,9 @@ class Exception::MongoidStore
       :message => exception.message,
       :backtrace => exception.backtrace,
     }
+  end
+
+  def class
+    name.constantize
   end
 end
